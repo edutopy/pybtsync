@@ -168,26 +168,26 @@ def get_btsync():
         if not response.status_code == requests.codes.ok:  # @UndefinedVariable
             response.raise_for_status()
         
-        try:
-            if platform.system() == 'Windows':
-                # normal download
-                with open(btsync_file_path,'wb') as btsync:
-                    btsync.write(response.content)
-                    
-            elif platform.system() == 'Linux':
-                # On Linux the file is a tar.gz, so download it to memory and extract it to the desired path
-                tar_gz = io.BytesIO()
-                tar_gz.write(response.content)
-                tar_gz.seek(0)
-                with tarfile.open(mode='r:gz', fileobj=tar_gz) as btsync:
-                    btsync.extract(btsync_file, path=application_folder)
-            else:
-                raise(NotImplementedError)
+        if platform.system() == 'Windows':
+            # normal download
+            with open(btsync_file_path,'wb') as btsync:
+                btsync.write(response.content)
+                
+        elif platform.system() == 'Linux':
+            # On Linux the file is a tar.gz, so download it to memory and extract it to the desired path
+            tar_gz = io.BytesIO()
+            tar_gz.write(response.content)
+            tar_gz.seek(0)
+            btsync = tarfile.open(mode='r:gz', fileobj=tar_gz)
+            btsync.extract(btsync_file, path=application_folder)
+            btsync.close()
             
-            # refresh configuration with new download date
-            settings['last_donwload_date'] = datetime.datetime.now().isoformat()
-        except:
-            pass
+        else:
+            raise(NotImplementedError)
+        
+        # refresh configuration with new download date
+        settings['last_donwload_date'] = datetime.datetime.now().isoformat()
+
     # dump configuration file to disk
     with open(os.path.join(application_folder, settings_file), 'w') as settings_file_fp:
         json.dump(settings, settings_file_fp)
