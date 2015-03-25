@@ -23,12 +23,12 @@ except:
 
 # All OS dependent data should go here
 all_oses_data = {'Windows' : 
-                 {'download_URL' : 'http://download-lb.utorrent.com/endpoint/btsync/os/windows/track/stable',
+                 {'download_URL' : 'https://download-cdn.getsyncapp.com/stable/windows/BitTorrent-Sync.exe',
                   'application_folder' : os.path.join(os.environ.get('APPDATA') or '','pybtsync'),
                   'btsync_file' : 'BTSync.exe',
                   'settings_file' : 'pybtsync'},
                   'Linux' :
-                 {'download_URL' : 'http://download-lb.utorrent.com/endpoint/btsync/os/linux-x64/track/stable',
+                 {'download_URL' : 'https://download-cdn.getsyncapp.com/stable/linux-x64/BitTorrent-Sync_x64.tar.gz',
                   'application_folder' : os.path.join(os.environ.get('HOME') or '','.pybtsync'),
                   'btsync_file' : 'btsync',
                   'settings_file' : 'pybtsync'},
